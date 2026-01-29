@@ -2,7 +2,6 @@ import { NextRequest } from 'next/server';
 import {
   RateLimiter,
   getClientIP,
-  sanitizeInput,
   sanitizeForHtml,
   successResponse,
   errorResponse,
@@ -361,13 +360,7 @@ export async function POST(request: NextRequest) {
 
     const { name, email, summary } = validation.data;
 
-    const sanitizedData = {
-      name: sanitizeInput(name),
-      email: sanitizeInput(email).toLowerCase(),
-      summary: sanitizeInput(summary, 10000),
-    };
-
-    // HTML-escaped version for email templates (prevents XSS)
+    // HTML-escaped data for email templates (prevents XSS)
     const htmlSafeData = {
       name: sanitizeForHtml(name),
       email: sanitizeForHtml(email).toLowerCase(),
