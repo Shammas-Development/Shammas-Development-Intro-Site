@@ -12,9 +12,8 @@ export function proxy(_request: NextRequest): NextResponse {
   if (process.env.NODE_ENV !== 'production') {
     response.headers.set('X-Robots-Tag', 'noindex, nofollow');
   }
-
   return response;
-  
+
 }
 
 // Apply proxy to all routes
