@@ -16,6 +16,8 @@ import ExitIntentPopup from '@/components/ExitIntentPopup';
 import NewsletterPopup from '@/components/NewsletterPopup';
 import StickyCTA from '@/components/StickyCTA';
 import NavigationEvents from '@/components/NavigationEvents';
+import AdSense from '@/components/AdSense';
+import Trustpilot from '@/components/Trustpilot';
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -270,31 +272,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       className={`h-full bg-neutral-950 text-base antialiased text-neutral-100 ${inter.variable} ${playfair.variable}`}
     >
       <head>
+        {/* Preconnect to critical third-party origins for faster loading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://embed.tawk.to" />
+        <link rel="dns-prefetch" href="https://invitejs.trustpilot.com" />
+        <link rel="dns-prefetch" href="https://www.clarity.ms" />
+
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* Google AdSense Verification - Only load if configured */}
-        {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
-          <script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
-            crossOrigin="anonymous"
-          />
-        )}
-        {/* Trustpilot Integration Script - Only load if configured */}
-        {process.env.NEXT_PUBLIC_TRUSTPILOT_BUSINESS_ID && (
-          <script
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function(w,d,s,r,n){w.TrustpilotObject=n;w[n]=w[n]||function(){(w[n].q=w[n].q||[]).push(arguments)};
-              a=d.createElement(s);a.async=1;a.src=r;a.type='text/java'+s;f=d.getElementsByTagName(s)[0];
-              f.parentNode.insertBefore(a,f)})(window,document,'script', 'https://invitejs.trustpilot.com/tp.min.js', 'tp');
-              tp('register', '${process.env.NEXT_PUBLIC_TRUSTPILOT_BUSINESS_ID}');
-              `,
-            }}
-          />
-        )}
       </head>
       <body className="flex min-h-full flex-col">
         <NavigationEvents />
@@ -314,6 +304,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <ExitIntentPopup />
         <NewsletterPopup />
         <StickyCTA />
+        <AdSense />
+        <Trustpilot />
       </body>
     </html>
   );

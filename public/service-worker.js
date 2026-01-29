@@ -1,6 +1,6 @@
-const CACHE_NAME = 'shammas-development-v2'
-const STATIC_CACHE = 'shammas-static-v2'
-const DYNAMIC_CACHE = 'shammas-dynamic-v2'
+const CACHE_NAME = 'shammas-development-v3'
+const STATIC_CACHE = 'shammas-static-v3'
+const DYNAMIC_CACHE = 'shammas-dynamic-v3'
 
 // Static assets to cache immediately
 const urlsToCache = [
@@ -20,7 +20,6 @@ const urlsToCache = [
   '/web-app-manifest-192x192.png',
   '/web-app-manifest-512x512.png',
   '/apple-touch-icon.png',
-  '/appLogo.png',
 ]
 
 // Max items in dynamic cache

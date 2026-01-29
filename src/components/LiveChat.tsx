@@ -46,7 +46,7 @@ const LiveChat = ({
     window.Tawk_API = window.Tawk_API || {};
     window.Tawk_LoadStart = new Date();
 
-    // Create and append script after a short delay to ensure DOM is ready
+    // Create and append script after delay to prioritize core content loading
     const timer = setTimeout(() => {
       const script = document.createElement("script");
       script.async = true;
@@ -65,7 +65,7 @@ const LiveChat = ({
       };
 
       document.head.appendChild(script);
-    }, 1000); // Delay to ensure page is fully loaded
+    }, 4000); // Delay 4 seconds to prioritize core content
 
     return () => {
       clearTimeout(timer);
