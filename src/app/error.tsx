@@ -11,8 +11,10 @@ interface ErrorProps {
 
 const Error = ({ error, reset }: ErrorProps) => {
   useEffect(() => {
-    // Log the error to an error reporting service
-    console.error("Application error:", error);
+    // Log the error only in development (Sentry handles production)
+    if (process.env.NODE_ENV === "development") {
+      console.error("Application error:", error);
+    }
   }, [error]);
 
   return (

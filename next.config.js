@@ -105,8 +105,9 @@ const nextConfig = {
   // Compress assets
   compress: true,
 
-  // Production source maps for Sentry
-  productionBrowserSourceMaps: true,
+  // Source maps uploaded to Sentry only, NOT served to browsers
+  // Sentry plugin handles upload via hideSourceMaps: true
+  productionBrowserSourceMaps: false,
 }
 
 // Sentry configuration options

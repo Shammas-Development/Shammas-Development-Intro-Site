@@ -3,6 +3,7 @@ import {
   RateLimiter,
   getClientIP,
   sanitizeInput,
+  sanitizeForHtml,
   successResponse,
   errorResponse,
   rateLimitResponse,
@@ -371,7 +372,7 @@ export async function POST(request: NextRequest) {
 
     const { name, email, company, phone, message, budget } = validation.data;
 
-    // Sanitize inputs
+    // Sanitize inputs for storage/logic
     const sanitizedData = {
       name: sanitizeInput(name),
       email: sanitizeInput(email).toLowerCase(),
@@ -381,15 +382,25 @@ export async function POST(request: NextRequest) {
       budget: budget ? sanitizeInput(budget) : '',
     };
 
+    // HTML-escaped version for email templates (prevents XSS)
+    const htmlSafeData = {
+      name: sanitizeForHtml(name),
+      email: sanitizeForHtml(email).toLowerCase(),
+      company: company ? sanitizeForHtml(company) : '',
+      phone: phone ? sanitizeForHtml(phone) : '',
+      message: sanitizeForHtml(message, 5000),
+      budget: budget ? sanitizeForHtml(budget) : '',
+    };
+
     if (!BREVO_API_KEY) {
       logError('Contact API', 'BREVO_API_KEY not configured');
       return configErrorResponse();
     }
 
-    // Send both emails in parallel
+    // Send both emails in parallel (use HTML-safe data for email templates)
     const [companyEmailSent, userEmailSent] = await Promise.all([
-      sendContactNotification(sanitizedData),
-      sendConfirmationToUser({ name: sanitizedData.name, email: sanitizedData.email }),
+      sendContactNotification(htmlSafeData),
+      sendConfirmationToUser({ name: htmlSafeData.name, email: sanitizedData.email }),
     ]);
 
     if (companyEmailSent && userEmailSent) {

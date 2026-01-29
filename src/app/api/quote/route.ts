@@ -3,6 +3,7 @@ import {
   RateLimiter,
   getClientIP,
   sanitizeInput,
+  sanitizeForHtml,
   successResponse,
   errorResponse,
   rateLimitResponse,
@@ -366,15 +367,22 @@ export async function POST(request: NextRequest) {
       summary: sanitizeInput(summary, 10000),
     };
 
+    // HTML-escaped version for email templates (prevents XSS)
+    const htmlSafeData = {
+      name: sanitizeForHtml(name),
+      email: sanitizeForHtml(email).toLowerCase(),
+      summary: sanitizeForHtml(summary, 10000),
+    };
+
     if (!BREVO_API_KEY) {
       logError('Quote API', 'BREVO_API_KEY not configured');
       return configErrorResponse();
     }
 
-    // Send both emails in parallel
+    // Send both emails in parallel (use HTML-safe data for email templates)
     const [companyEmailSent, userEmailSent] = await Promise.all([
-      sendNotificationToCompany(sanitizedData),
-      sendConfirmationToUser(sanitizedData),
+      sendNotificationToCompany(htmlSafeData),
+      sendConfirmationToUser(htmlSafeData),
     ]);
 
     if (companyEmailSent && userEmailSent) {
