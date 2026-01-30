@@ -90,7 +90,7 @@ const nextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              `script-src 'self' 'unsafe-inline' ${isDevelopment ? "'unsafe-eval'" : ''} https://va.vercel-scripts.com https://embed.tawk.to https://*.tawk.to https://invitejs.trustpilot.com https://*.trustpilot.com https://widget.trustpilot.com https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.sentry.io https://browser.sentry-cdn.com https://assets.calendly.com https://cdn.jsdelivr.net`,
+              `script-src 'self' 'unsafe-inline' ${isDevelopment ? "'unsafe-eval'" : ''} https://va.vercel-scripts.com https://embed.tawk.to https://*.tawk.to https://invitejs.trustpilot.com https://*.trustpilot.com https://widget.trustpilot.com https://www.googletagmanager.com https://www.google-analytics.com https://*.clarity.ms https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.sentry.io https://browser.sentry-cdn.com https://assets.calendly.com https://cdn.jsdelivr.net https://*.adtrafficquality.google`,
               "style-src 'self' 'unsafe-inline' https://*.tawk.to https://assets.calendly.com",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data: https://*.tawk.to",
